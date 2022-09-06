@@ -40,9 +40,15 @@ public class GamePanel extends JPanel implements Runnable {
     // Inits
     KeyHandler keyH = new KeyHandler();
     TileManager tileM = new TileManager(this);
-    Thread gameThread;
+    
     public CollisionChecker cChecker = new CollisionChecker(this);
     public AssetSetter aSetter = new AssetSetter(this);
+    Thread gameThread;
+
+    // Sound
+    Sound sound = new Sound();
+
+    //Entity and Obj
     public Player player = new Player(this, keyH);
 
     // 10 is obj limit
@@ -63,6 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setupGame() {
         aSetter.setObject();
+        playMusic(0);
     }
 
     @Override
@@ -120,4 +127,20 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
+    // Sound stuffs
+
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void playSE(int i) {
+        sound.setFile(i);
+        sound.play();
+    }
 }
