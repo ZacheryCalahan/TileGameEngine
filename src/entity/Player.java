@@ -3,9 +3,7 @@ package src.entity;
 // external
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.io.IOException;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 
 // internal
 import src.engine.GamePanel;
@@ -14,18 +12,15 @@ import src.engine.KeyHandler;
 
 
 public class Player extends Entity {
-    GamePanel gp;
+
     KeyHandler keyH;
 
+    // Screen Vars
     public final int screenX;
-    public final int screenY;
-
-    int hasKey = 0;
-
-    
+    public final int screenY;    
 
     public Player(GamePanel gp, KeyHandler keyH) {
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
 
@@ -77,6 +72,10 @@ public class Player extends Entity {
             int objIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objIndex);
 
+            // Check for NPC collision
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+            interactNPC(npcIndex);
+
                 //if col is false, can move
             if (collisionOn == false) {
                 if (direction == "up") {
@@ -105,21 +104,7 @@ public class Player extends Entity {
 
     public void pickUpObject(int i) {
         if (i != 999) {
-            String objectName = gp.obj[i].name;
-            switch (objectName) {
-                case "Key":
-                    hasKey++;
-                    gp.obj[i] = null;
-                    System.out.println("Keys: "+hasKey);
-                    break;
-                case "Chest":
-                if (hasKey > 0) {
-                    gp.obj[i] = null;
-                    hasKey--;
-                    System.out.println("Lost one key. Keys: "+hasKey);
-                    break;
-                }
-            }
+
             
         }
     }
@@ -165,23 +150,28 @@ public class Player extends Entity {
                 image = downStill;
         }
 
-        g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, screenX, screenY, null);
     }
 
     public void getPlayerImage() {
-        try {
-            up1 =           ImageIO.read(getClass().getResourceAsStream("/res/player/player_up_1.png"));
-            up2 =           ImageIO.read(getClass().getResourceAsStream("/res/player/player_up_2.png"));
-            upStill =       ImageIO.read(getClass().getResourceAsStream("/res/player/player_up_still.png"));
-            down1 =         ImageIO.read(getClass().getResourceAsStream("/res/player/player_down_1.png"));
-            down2 =         ImageIO.read(getClass().getResourceAsStream("/res/player/player_down_2.png"));
-            downStill =     ImageIO.read(getClass().getResourceAsStream("/res/player/player_down_still.png"));
-            left1 =         ImageIO.read(getClass().getResourceAsStream("/res/player/player_left_1.png"));
-            leftStill =     ImageIO.read(getClass().getResourceAsStream("/res/player/player_left_still.png"));
-            right1 =        ImageIO.read(getClass().getResourceAsStream("/res/player/player_right_1.png"));
-            rightStill =    ImageIO.read(getClass().getResourceAsStream("/res/player/player_right_still.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
+        up1 =           setup("player/player_up_1");
+        up2 =           setup("player/player_up_2");
+        upStill =       setup("player/player_up_still");
+        down1 =         setup("player/player_down_1");
+        down2 =         setup("player/player_down_2");
+        downStill =     setup("player/player_down_still");
+        left1 =         setup("player/player_left_1");
+        leftStill =     setup("player/player_left_still");
+        right1 =        setup("player/player_right_1");
+        rightStill =    setup("player/player_right_still");
+    }
+
+    public void interactNPC(int i) {
+        if (i != 999) {
+            gp.gameState = gp.dialogueState;
+            System.out.println("state set. index is " + i);
+            gp.npc[i].speak();
+            System.out.println("speak complete");
         }
     }
 }

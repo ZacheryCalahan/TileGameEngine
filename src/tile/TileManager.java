@@ -11,6 +11,7 @@ import java.awt.Graphics2D;
 
 // internal
 import src.engine.GamePanel;
+import src.engine.UtilityTool;
 
 public class TileManager {
     GamePanel gp;
@@ -29,27 +30,23 @@ public class TileManager {
     }
 
     public void getTileImage() {
+        // This is where tiles are initiated for use.
+        setup(0, "tile_grass", false);
+        setup(1, "tile_brick", true);
+        setup(2, "tile_water", true);
+        setup(3, "tile_dirt", false);
+        setup(4, "tile_tree", true);
+        setup(5, "tile_sand", false);
+    }
+
+    public void setup(int index, String imageName, boolean collision) {
+        // This is a helper function for setting up tile images and scaling them automagically.
+        UtilityTool uTool = new UtilityTool();
         try {
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tile_grass.png"));
-
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tile_brick.png"));
-            tile[1].collision = true;
-
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tile_water.png"));
-            tile[2].collision = true;
-
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tile_dirt.png"));
-
-            tile[4] = new Tile();
-            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tile_tree.png"));
-            tile[4].collision = true;
-
-            tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/tile_sand.png"));
+            tile[index] = new Tile();
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/"+ imageName + ".png"));
+            tile[index].image = uTool.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+            tile[index].collision = collision;
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,7 +70,7 @@ public class TileManager {
             // draw current tile if on screen and ready for next tile
             if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX && worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
                 worldY + gp.tileSize > gp.player.worldY - gp.player.screenY && worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
-                    g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+                    g2.drawImage(tile[tileNum].image, screenX, screenY, null);
                 }
             
             worldCol++;

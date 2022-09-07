@@ -16,3 +16,7 @@
 ### Objects (Due for change)
     Each individual object gets its own class, due to each item having differing uses and abilities. Object classes go in the object package in the src folder,  its sprite goes in objects in the res folder, and it's placement belongs in the AssetSetter class.
 
+
+#TODO!
+
+you left off with no npc collisions
