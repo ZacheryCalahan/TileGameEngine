@@ -9,8 +9,6 @@ import src.engine.GamePanel;
 
 public class NpcDummy extends Entity {
 
-    GamePanel gp;
-
     public NpcDummy(GamePanel gp) {
         super(gp);
  

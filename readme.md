@@ -17,17 +17,3 @@
     Each individual object gets its own class, due to each item having differing uses and abilities. Object classes go in the object package in the src folder,  its sprite goes in objects in the res folder, and it's placement belongs in the AssetSetter class.
 
 
-#TODO!
-
-you left off with no npc collisions
-
-
-# for Ryi:
-
-Exception in thread "Thread-0" java.lang.NullPointerException: Cannot read field "ui" because "this.gp" is null
-        at src.entity.NpcDummy.speak(NpcDummy.java:57)
-        at src.entity.Player.interactNPC(Player.java:173)
-        at src.entity.Player.update(Player.java:77)
-        at src.engine.GamePanel.update(GamePanel.java:120)
-        at src.engine.GamePanel.run(GamePanel.java:104)
-        at java.base/java.lang.Thread.run(Thread.java:833)
