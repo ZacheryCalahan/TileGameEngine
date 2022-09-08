@@ -168,10 +168,11 @@ public class Player extends Entity {
 
     public void interactNPC(int i) {
         if (i != 999) {
-            gp.gameState = gp.dialogueState;
-            System.out.println("state set. index is " + i);
-            gp.npc[i].speak();
-            System.out.println("speak complete");
+            if (gp.keyH.ePressed) {
+                gp.gameState = gp.dialogueState;
+                gp.npc[i].speak();
+            }
         }
+        gp.keyH.ePressed = false;
     }
 }

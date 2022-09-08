@@ -24,7 +24,9 @@ public class NpcDummy extends Entity {
     }
 
     public void setDialogue() {
-        dialogues[0] = "Hello, lad.";
+        dialogues[0] = "You look silly talking to a dummy. \n silly...";
+        dialogues[1] = "Are you having fun?";
+        dialogues[2] = "The code writer is sadistic.";
     }
 
     @Override
@@ -52,6 +54,8 @@ public class NpcDummy extends Entity {
     }
 
     public void speak() {
-        gp.ui.currentDialogue = dialogues[0];
+        // This is left for character specific stuffs.
+
+        super.speak();
     }
 }

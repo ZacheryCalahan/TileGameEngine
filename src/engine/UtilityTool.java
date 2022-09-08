@@ -12,4 +12,32 @@ public class UtilityTool {
         
         return scaledImage;
     }
+
+    public int findLastNonNull(final Object[] objects) {
+        int i = - 1;
+        if(objects != null) {
+            for (i = objects.length - 1; i >= 0; i--) {
+                if (objects[i] != null) {
+                    break;
+                }
+            }
+        }
+        return i;
+    }
+
+    public String getOppositeDirection(String direction) {
+        // Defaults to down when direction is not a direction. 
+        switch (direction) {
+            case "up":
+                return "down";
+            case "down":
+                return "up";
+            case "left":
+                return "right";
+            case "right":
+                return "left";
+            default:
+                return "down";
+        }
+    }
 }

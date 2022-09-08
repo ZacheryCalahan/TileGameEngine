@@ -25,13 +25,24 @@ public class Entity {
     public boolean collisionOn = false;
     public int actionLockCounter = 0;
     String dialogues[] = new String[20]; // 20 max dialogues
+    int dialogueIndex = 0;
+    UtilityTool uTool = new UtilityTool();
 
     public Entity(GamePanel gp) {
         this.gp = gp;
     }
 
     public void setAction() {}
-    public void speak() {}
+    public void speak() {
+        if (dialogues[dialogueIndex] == null) {
+            dialogueIndex = uTool.findLastNonNull(dialogues);
+        }
+
+        gp.ui.currentDialogue = dialogues[dialogueIndex];
+        dialogueIndex++;
+
+        direction = uTool.getOppositeDirection(gp.player.direction);
+    }
 
     public BufferedImage setup(String imagePath) {
         UtilityTool uTool = new UtilityTool();
