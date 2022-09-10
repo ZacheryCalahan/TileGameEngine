@@ -28,11 +28,16 @@ public class Entity {
     int dialogueIndex = 0;
     UtilityTool uTool = new UtilityTool();
 
+    // Character status
+    public int maxLife;
+    public int life;
+
     public Entity(GamePanel gp) {
         this.gp = gp;
     }
 
     public void setAction() {}
+    
     public void speak() {
         if (dialogues[dialogueIndex] == null) {
             dialogueIndex = uTool.findLastNonNull(dialogues);

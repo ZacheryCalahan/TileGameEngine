@@ -9,7 +9,7 @@ public class KeyHandler implements KeyListener {
     GamePanel gp;
 
     //debug
-    boolean checkDrawTime = false;
+    boolean showDebug = false;
 
     public KeyHandler(GamePanel gp) {
         this.gp = gp;
@@ -21,6 +21,34 @@ public class KeyHandler implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
+        // TITLE STATE
+        if (gp.gameState == gp.titleState) {
+            if (code == KeyEvent.VK_W) {
+                gp.ui.commandNum--;
+                if (gp.ui.commandNum < 0) {
+                    gp.ui.commandNum = 2;
+                }
+            }
+            if (code == KeyEvent.VK_S) {
+                gp.ui.commandNum++;
+                if (gp.ui.commandNum > 2) {
+                    gp.ui.commandNum = 0;
+                }
+            }
+            if (code == KeyEvent.VK_E) {
+                if (gp.ui.commandNum == 0) {
+                    gp.gameState = gp.playState;
+                    gp.playMusic(0);
+                }
+                if (gp.ui.commandNum == 1) {
+
+                }
+                if (gp.ui.commandNum == 2) {
+                    System.exit(0);
+                }
+            }
+        }
+
         // PLAY STATE
         if (gp.gameState == gp.playState) {
             if (code == KeyEvent.VK_W) {
@@ -63,12 +91,14 @@ public class KeyHandler implements KeyListener {
             }
         }
 
+        
+
         //debug
         if (code == KeyEvent.VK_T) {
-            if (checkDrawTime == false) {
-                checkDrawTime = true;
-            } else if (checkDrawTime == true) {
-                checkDrawTime = false;
+            if (showDebug == false) {
+                showDebug = true;
+            } else if (showDebug == true) {
+                showDebug = false;
             }
         }
         

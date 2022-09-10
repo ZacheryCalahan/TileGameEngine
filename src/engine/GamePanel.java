@@ -27,10 +27,10 @@ public class GamePanel extends JPanel implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow;   // 1056px at full
 
     // World Settings
-    public final int maxWorldCol = 58;
-    public final int maxWorldRow = 22;
-    public final int worldWidth = tileSize * maxWorldCol;
-    public final int worldHeight = tileSize * maxWorldRow;
+    public int maxWorldCol = 58;
+    public int maxWorldRow = 22;
+    public int worldWidth = tileSize * maxWorldCol;
+    public int worldHeight = tileSize * maxWorldRow;
 
     //fps
     int FPS = 60;
@@ -49,6 +49,9 @@ public class GamePanel extends JPanel implements Runnable {
     //UI
     public UI ui = new UI(this);
 
+    // Event
+    public EventHandler eHandler = new EventHandler(this);
+
     //Entity and Obj
     public Player player = new Player(this, keyH);
     public SuperObject obj[] = new SuperObject[10]; // 10 is the OBJ limit
@@ -56,9 +59,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Gamestate
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
+    
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight)); 
@@ -74,10 +79,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void setupGame() {
-        gameState = playState;
+        gameState = titleState;
         aSetter.setObject();
         aSetter.setNPC();
-        playMusic(0);
+        //playMusic(0);
         
     }
 
@@ -135,35 +140,42 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D)g;
         // Debug
         long drawStart = 0;
-        if (keyH.checkDrawTime == true) {
+        if (keyH.showDebug == true) {
             drawStart = System.nanoTime();
         }
 
-        // Tiles
-        tileM.draw(g2);
+        // Title Screen
+        if (gameState == titleState) {
+            ui.draw(g2);
+        } else {
+            // Tiles
+            tileM.draw(g2);
 
-        // Objects
-        for (int i = 0; i < obj.length; i++) {
-            if(obj[i] != null) {
-                obj[i].draw(g2, this);
+            // Objects
+            for (int i = 0; i < obj.length; i++) {
+                if(obj[i] != null) {
+                    obj[i].draw(g2, this);
+                }
             }
+
+            for(int i = 0; i < npc.length; i++) {
+                if(npc[i] != null) {
+                    npc[i].draw(g2);
+                }
+            }
+
+            //Entities
+            player.draw(g2);
+
+            //UI
+            ui.draw(g2);
+
         }
 
-        for(int i = 0; i < npc.length; i++) {
-            if(npc[i] != null) {
-                npc[i].draw(g2);
-            }
-        }
-
-        //Entities
-        player.draw(g2);
-
-        //UI
-        ui.draw(g2);
-
+       
         // Debug
         
-        if (keyH.checkDrawTime == true) {
+        if (keyH.showDebug == true) {
             long drawEnd = System.nanoTime();
             long passedTime = drawEnd - drawStart;
             g2.setColor(Color.white);
@@ -190,4 +202,12 @@ public class GamePanel extends JPanel implements Runnable {
         music.setFile(i);
         music.play();
     }
+
+    // Map Stuffs
+
+    public void setWorldData() {
+        worldWidth = tileSize * maxWorldCol;
+        worldHeight = tileSize * maxWorldRow;
+    }
+
 }

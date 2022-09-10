@@ -17,7 +17,8 @@ public class Player extends Entity {
 
     // Screen Vars
     public final int screenX;
-    public final int screenY;    
+    public final int screenY;   
+
 
     public Player(GamePanel gp, KeyHandler keyH) {
         super(gp);
@@ -47,6 +48,9 @@ public class Player extends Entity {
         worldY = gp.tileSize * 11;
         speed = 4;
         direction = "down";
+
+        maxLife = 6;
+        life = maxLife;
     }
 
     public void update() {
@@ -75,6 +79,10 @@ public class Player extends Entity {
             // Check for NPC collision
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
             interactNPC(npcIndex);
+
+            // Check event
+            gp.eHandler.checkEvent();
+            gp.keyH.ePressed = false;
 
                 //if col is false, can move
             if (collisionOn == false) {
@@ -173,6 +181,6 @@ public class Player extends Entity {
                 gp.npc[i].speak();
             }
         }
-        gp.keyH.ePressed = false;
+        
     }
 }
