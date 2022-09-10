@@ -12,11 +12,15 @@ import java.awt.Graphics2D;
 // internal
 import src.engine.GamePanel;
 import src.engine.UtilityTool;
+import src.engine.mapengine.MapFile;
+import src.engine.mapengine.MapLoader;
 
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
     public int mapTileNum[][];
+    MapLoader mLoader = new MapLoader();
+    MapFile currentMap;
 
 
     public TileManager(GamePanel gp) {
@@ -25,7 +29,8 @@ public class TileManager {
         mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
         
         getTileImage();
-        loadMap("/res/maps/map02.txt");
+        loadMapDat("res/maps/map01.dat");
+        //loadMap("res/maps/map02.txt");
         
     }
 
@@ -84,6 +89,7 @@ public class TileManager {
         }
     }
 
+    @Deprecated
     public void loadMap(String mapPath) {
         try {
             InputStream is = getClass().getResourceAsStream(mapPath);
@@ -108,5 +114,12 @@ public class TileManager {
         } catch (Exception e) {
 
         }
+    }
+
+    public void loadMapDat(String mapPath) {
+        currentMap = mLoader.readMap(mapPath);
+        gp.maxWorldCol = currentMap.cols;
+        gp.maxWorldRow = currentMap.rows;
+        gp.setWorldData();
     }
 }
